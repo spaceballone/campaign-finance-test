@@ -3,21 +3,52 @@
   border-color: transparent;
 }
 
+#sidebarPanel{
+  width: 25%;
+  float: left;
+  padding-left: 0px;
+  padding-right: 0px;
+  height: 1024px;
+}
+
 .well {
   background-color: red;
+  width: 100%;
+  margin-right: 0px;
+  margin-left: 0px;
 }
 
 #mapContainer {
-  padding: 2px;
   position: relative;
   width: 58.3333%;
   background-color: white;
   border-color: gray;
+  border: 1px solid #e3e3e3;
+  display: inline-block;
 }
 
-#contributorsContainer{
+#contributorsContainer {
   position: relative;
   width: 41.667%;
   background-color: white;
+  border: 1px solid #e3e3e3;
+  display: inline-block;
+}
+
+#contributionsHistogramContainer {
+  position: relative;
+  width: 50%;
+  background-color: white;
   border-color: gray;
+  border: 1px solid #e3e3e3;
+  display: inline-block;
+}
+
+.row{
+  display:inline;
+  line-height: 2px;
+}
+
+.chartHeader{
+  line-height: 20px;
 }

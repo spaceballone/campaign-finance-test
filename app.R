@@ -92,23 +92,20 @@ ui <- navbarPage("Campaign Finance App",
                div(id='mapContainer',leafletOutput(outputId = "map")),
 #                      wellPanel(leafletOutput(outputId = "map"))
 #               ),
-               column(width  = 5,
-                      wellPanel(
-                          div("Top Contributors"),
+               div(id='contributorsContainer',
+                          div(class="chartHeader","Top Contributors"),
                           div(style='max-height:500px; overflow-y: scroll; position: relative',plotlyOutput(outputId = "topContributors",width="100%"))
-                          )
+                          
                )
            ),
            fluidRow(width = "100%",
-               column(width  = 6,
-                      wellPanel(
-                          div("Contributions Sizes Grouped by Amount "),
-                          plotlyOutput(outputId = "contributionsHistogram",width="100%"))
+                    div(id='contributionsHistogramContainer',
+                          div(class="chartHeader","Contributions Sizes Grouped by Amount"),
+                          plotlyOutput(outputId = "contributionsHistogram",width="100%")
                                 ),
-               column(width  = 6,
-                      wellPanel(
-                          div("Contributions Overtime"),
-                          plotlyOutput(outputId = "contributionsTimeline",width="100%"))
+               div(id='contributionsHistogramContainer',
+                          div(class="chartHeader","Contributions Overtime"),
+                          plotlyOutput(outputId = "contributionsTimeline",width="100%")
                )
            )
         )
