@@ -1,0 +1,23 @@
+.selectize-input.full {
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.well {
+  background-color: red;
+}
+
+#mapContainer {
+  padding: 2px;
+  position: relative;
+  width: 58.3333%;
+  background-color: white;
+  border-color: gray;
+}
+
+#contributorsContainer{
+  position: relative;
+  width: 41.667%;
+  background-color: white;
+  border-color: gray;
+}
