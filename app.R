@@ -201,10 +201,13 @@ server <- function(input, output, session) {
         map_data <- filtered_donations() %>%
             mutate(lat = as.numeric(str_extract(location,lat_regex))) %>%
             mutate(lon = as.numeric(str_extract(location,lon_regex)))
+        
+        palette <- color_palette()
+        
         mapout <- leaflet_static <- leaflet() %>% addProviderTiles(providers$ CartoDB.Positron) %>%
             setView(-98.58,39.82,3) %>%
             addCircles(data = map_data, lng = ~lat, lat = ~lon, layerId = ~employer,
-              popup = ~employer, color = color_palette())
+              popup = ~employer, radius = ~amount, color = unname(palette))
             
         
         return(mapout)
