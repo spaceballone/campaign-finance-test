@@ -77,7 +77,8 @@ ui <- fluidPage(
                         dateRangeInput('dateRange',
                                     label = NULL,
                                     start = "1998-01-01", end = "2000-01-01"
-                        ))
+                        )),
+                    div(style="display: inline-block",bookmarkButton("Share"))
                    ),
            fluidRow(width = "100%",
                     uiOutput(outputId = "legend"),align = "right"),
@@ -304,4 +305,4 @@ server <- function(input, output, session) {
 
 options(shiny.autoreload = TRUE)
         # Run the application 
-shinyApp(ui = ui, server = server)
+shinyApp(ui = ui, server = server,  enableBookmarking = "url")
