@@ -3,12 +3,18 @@
   border-color: transparent;
 }
 
-#sidebarPanel{
+.navbarPanel {
+  margin-bottom: 0px;
+}
+
+.sidebarPanel{
   width: 25%;
   float: left;
-  padding-left: 0px;
-  padding-right: 0px;
+  padding-top: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
   height: 1024px;
+  background-color: #e3e3e3;
 }
 
 .well {
@@ -33,6 +39,7 @@
   background-color: white;
   border: 1px solid #e3e3e3;
   display: inline-block;
+  max-height: 400px;
 }
 
 #contributionsHistogramContainer {
@@ -51,4 +58,26 @@
 
 .chartHeader{
   line-height: 20px;
+}
+
+.container-fluid{
+  padding-left: 0px;
+  padding-right: 0px;
+  line-height: 0px;
+}
+
+
+.myHeader{
+  background-color: purple;
+  color: white;
+  vertical-align: middle;
+  height: 45px;
+  line-height:45px;
+  padding-left:10px;
+  display: absolute;
+  width: 100%;
+}
+
+#legend {
+  margin-bottom: 10px;
 }

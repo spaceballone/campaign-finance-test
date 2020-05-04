@@ -50,17 +50,14 @@ df_donations <- read.csv(simplified_path, stringsAsFactors = FALSE) %>%
 #     mutate(donation_date = as.Date(donation_date, '%m/%d/%Y'))
     
 # Define UI for application that draws a histogram
-ui <- navbarPage("Campaign Finance App",
+ui <- fluidPage(
+    
     tags$head(
         tags$link(rel = "stylesheet", type = "text/css", href = "styles.css")
     ),
-
-    # Application title
-  #  titlePanel("Campaign Finance App"),
-
-    # Sidebar with a slider input for number of bins 
+    div(class="myHeader","Campaign Finance App"),
     sidebarLayout(
-        sidebarPanel(width = 3, style = "height: 1024px",
+        div(class = "sidebarPanel",
             tagList(
                 div(
                     div(style="display: inline-block;","Election Year"),
@@ -73,11 +70,10 @@ ui <- navbarPage("Campaign Finance App",
             )
         ),
 
-        # Show a plot of the generated distribution
         mainPanel(width = 9, 
            fluidRow(width = "100%",
-                    div(style="display: inline-block;vertical-align:top","Campaign Contributions Controller"),
-                    div(style="display: inline-block;vertical-align:top",
+                    div(style="display: inline-block;vertical-align:middle;line-height:20px","Campaign Contributions Controller"),
+                    div(style="display: inline-block;vertical-align:middle;margin-top:15px",
                         dateRangeInput('dateRange',
                                     label = NULL,
                                     start = "1998-01-01", end = "2000-01-01"
@@ -86,15 +82,10 @@ ui <- navbarPage("Campaign Finance App",
            fluidRow(width = "100%",
                     uiOutput(outputId = "legend"),align = "right"),
            fluidRow(width = "100%",
-               # column(width = 7,
-               #        wellPanel(leafletOutput(outputId = "map"))
-               #        ),
                div(id='mapContainer',leafletOutput(outputId = "map")),
-#                      wellPanel(leafletOutput(outputId = "map"))
-#               ),
                div(id='contributorsContainer',
                           div(class="chartHeader","Top Contributors"),
-                          div(style='max-height:500px; overflow-y: scroll; position: relative',plotlyOutput(outputId = "topContributors",width="100%"))
+                          div(style='max-height:500px; overflow-y: scroll; position: relative; height: 380px',plotlyOutput(outputId = "topContributors",width="100%"))
                           
                )
            ),
@@ -120,8 +111,9 @@ get_color <- function(candidate_input, thing){
     names(palette) <- keys
     return(palette)
 }
+
 # Define server logic required to draw a histogram
-server <- function(input, output) {
+server <- function(input, output, session) {
     
    unique_campaigns <- reactive({
        df_uniques <- df_donations %>%
@@ -129,11 +121,10 @@ server <- function(input, output) {
        unique(df_uniques$campaign)
    })
    
-   # unique_campaigns <- reactive({unique(sort(df_donations$campaign))
-   # })
-   # 
    default_campaign <- c("Supervisor Gavin Newsom Campaign Committee")
     
+   
+   
     filtered_donations <- reactive({
         df_donations %>%
             filter(campaign %in% input$candidate1) %>%
@@ -141,6 +132,10 @@ server <- function(input, output) {
             filter(donation_date > input$dateRange[1] & donation_date < input$dateRange[2]) 
     })
     
+    df_donations_in_year <- reactive({
+        df_donations %>%
+            filter(election_year == input$electionYearFilter)
+    })
     
     unique_years <- sort(as.numeric(unique(df_donations$election_year),rm.na = T))
     
@@ -259,6 +254,26 @@ server <- function(input, output) {
                 showlegend = FALSE
         )
         return(plt_out)
+    })
+    
+    observeEvent(input$electionYearFilter,{
+        election_year <- input$electionYearFilter
+        print(election_year)
+        df_data <- df_donations_in_year()
+        
+        minTransactionDate <- min(df_data$donation_date, na.rm = TRUE)
+        maxTransactionDate <- max(df_data$donation_date, na.rm = TRUE)
+        
+        updateDateRangeInput(session, "dateRange",
+                             label = NULL,
+                             start = minTransactionDate,
+                             end = maxTransactionDate
+        )
+        
+        updateSelectInput(session,"candidate1",
+                          label = NULL,
+                          selected = df_data$campaign[[1]])
+        
     })
     
     output$topContributors <- renderPlotly({
